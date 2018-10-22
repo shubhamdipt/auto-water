@@ -51,14 +51,14 @@ if __name__ == "__main__":
             else:
                 status = "WET"
 
-            if status == "DRY":
-                # Switches on the Tuya smart switch
-                switch.turn_on()
-            else:
-                switch.turn_off()
             if change_in_state(status):
-                send_email(status)
+                if status == "DRY":
+                    # Switches on the Tuya smart switch
+                    switch.turn_on()
+                else:
+                    switch.turn_off()
                 save_soil_state(status)
+                send_email(status)
 
     except KeyboardInterrupt: # If CTRL+C is pressed, exit cleanly:
         GPIO.cleanup() # cleanup all GPI
